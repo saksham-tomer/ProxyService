@@ -1,0 +1,57 @@
+version: '3'
+services:
+  nginx:
+    image: nginx:alpine
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+    depends_on:
+      - frontend
+      - queue-service
+      - mobile-notification-service
+      - email-service
+
+  frontend:
+    build: ./frontend
+    expose:
+      - "3000"
+
+  redis:
+    image: redis:alpine
+    ports:
+      - "6379:6379"
+
+  queue-service:
+    build: ./queue-service
+    expose:
+      - "3001"
+    environment:
+      - REDIS_URL=redis://redis:6379
+      - EMAIL_SERVICE_URL=http://email-service:3003
+      - MOBILE_SERVICE_URL=http://mobile-notification-service:3002
+    depends_on:
+      - redis
+
+  mobile-notification-service:
+    build: ./mobile-notification-service
+    expose:
+      - "3002"
+    environment:
+      - FIREBASE_PROJECT_ID=your-firebase-project-id
+    volumes:
+      - ./firebase-credentials.json:/usr/src/app/firebase-credentials.json
+    environment:
+      - GOOGLE_APPLICATION_CREDENTIALS=/usr/src/app/firebase-credentials.json
+
+  email-service:
+    build: ./email-service
+    expose:
+      - "3003"
+    environment:
+      - SMTP_HOST=your-smtp-host
+      - SMTP_PORT=587
+      - SMTP_SECURE=false
+      - SMTP_USER=your-smtp-username
+      - SMTP_PASS=your-smtp-password
+      - EMAIL_FROM=noreply@yourdomain.com

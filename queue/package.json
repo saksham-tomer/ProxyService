@@ -1,0 +1,23 @@
+{
+  "name": "backenddoctorchat",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "devDependencies": {
+    "@types/express": "^4.17.21",
+    "typescript": "^5.6.2"
+  },
+  "dependencies": {
+    "axios": "^1.7.7",
+    "backenddoctorchat": "file:",
+    "bullmq": "^5.13.0",
+    "express": "^4.21.0",
+    "ioredis": "^5.4.1"
+  }
+}

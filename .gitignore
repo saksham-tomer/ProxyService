@@ -1,0 +1,10 @@
+node_modules
+email/node_modules
+frontend/node_modules
+mobile/node_modules
+queue/node_modules
+
+email/package-lock.json
+frontend/package-lock.json
+mobile/package-lock.json
+queue/package-lock.json
